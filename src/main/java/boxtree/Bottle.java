@@ -37,14 +37,15 @@ public class Bottle implements BoxTreeObject {
     public Bottle(int capacity, String name, Liquids liquid, int fullness){
         this.capacity = capacity;
         this.name = name;
+        fillTheBottle(fullness, liquid);
         this.liquid = liquid;
         this.bottleWeight = 0.005 * (capacity - getEmptySpace(capacity));
-        fillTheBottle(fullness, liquid);
+
 
     }
     private static double getEmptySpace(int capacity){
         double areaOfBottle = getRadiusOfBottle() * getRadiusOfBottle() * Math.PI;
-        double emptyArea = (getRadiusOfBottle()-2) * (getRadiusOfBottle()) * Math.PI;
+        double emptyArea = (getRadiusOfBottle()-2) * (getRadiusOfBottle()-2) * Math.PI;
         double heightOfBottle = capacity / areaOfBottle;
         return emptyArea * heightOfBottle;
     }
