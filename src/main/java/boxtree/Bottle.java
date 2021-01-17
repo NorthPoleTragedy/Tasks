@@ -25,7 +25,7 @@ public class Bottle implements BoxTreeObject {
         return liquid.toString();
     }
     private static int getRadiusOfBottle() {
-        return 15;                       //радиус включая стенки(2mm) бутылки
+        return 40;                       //радиус включая стенки(2mm) бутылки
 
     }
     public void SetName(String name){
