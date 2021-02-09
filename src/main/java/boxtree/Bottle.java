@@ -5,16 +5,28 @@ public class Bottle implements BoxTreeObject {
     private double weight;
     private String name;
     private Liquids liquid;
-    private double bottleWeight;
+    private final double bottleWeight;
     private double CONSISTENCE;
+    private int fullness;
     @Override
     public int getCapacity() {
         return capacity;
     }
 
+
     @Override
     public double getWeight() {
         return weight;
+    }
+
+    @Override
+    public boolean isBox() {
+        return false;
+    }
+
+    @Override
+    public String whatIsObject() {
+        return "bottle";
     }
 
     public String getName(){
@@ -37,6 +49,7 @@ public class Bottle implements BoxTreeObject {
     public Bottle(int capacity, String name, Liquids liquid, int fullness){
         this.capacity = capacity;
         this.name = name;
+        this.fullness = fullness;
         fillTheBottle(fullness, liquid);
         this.liquid = liquid;
         this.bottleWeight = 0.005 * (capacity - getEmptySpace(capacity));
@@ -68,4 +81,8 @@ public class Bottle implements BoxTreeObject {
     }
 
 
+    @Override
+    public Bottle clone() {
+        return new Bottle(getCapacity(), getName(), liquid, fullness);
+    }
 }
