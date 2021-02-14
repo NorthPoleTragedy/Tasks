@@ -1,11 +1,12 @@
 package boxtree;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 public class Box implements BoxTreeObject {
     private int capacity;
     private final int maxCapacity;
-    private int nestedCapacity;
     private final ArrayList<BoxTreeObject> nestedElem = new ArrayList<>();
     private final double boxWeight;
     private BoxCondition boxCondition;
@@ -31,6 +32,7 @@ public class Box implements BoxTreeObject {
     public ArrayList<BoxTreeObject> getNestedElem() {
         return nestedElem;
     }
+
 
     @Override
     public String toString() {
@@ -115,7 +117,7 @@ public class Box implements BoxTreeObject {
         return boxCondition;
     }
 
-    private static Boolean BoxIsExistAndCollected(Box box) {
+    public static Boolean BoxIsExistAndCollected(Box box) {
         if (box == null) {
             throw new NullPointerException();
         }
@@ -125,7 +127,8 @@ public class Box implements BoxTreeObject {
         };
     }
 
-    public static ArrayList<Bottle> recursiveSearchBottle(Bottle bottle, Box box) {
+    public static ArrayList<Bottle> recursiveSearchBottles(Bottle bottle, Box box) {
+
         ArrayList<Bottle> bottles = new ArrayList<>();
         findBottle(bottle, box, bottles);
         return bottles;
@@ -149,11 +152,11 @@ public class Box implements BoxTreeObject {
 
     public static int recursivelySearchNumberOfElements(Box box) {
         int numberOfItems = 1;
-        searchNumber(box, numberOfItems);
+        searchNumberOfObjects(box, numberOfItems);
         return numberOfItems;
     }
 
-    private static void searchNumber(Box box, int numberOfItems) {
+    private static void searchNumberOfObjects(Box box, int numberOfItems) {
         if (!BoxIsExistAndCollected(box)) {
             return;
         }
@@ -162,7 +165,7 @@ public class Box implements BoxTreeObject {
             BoxTreeObject boxTreeObject = box.getNestedElem().listIterator().next();
             if (boxTreeObject.isBox()) {
                 Box box1 = (Box) boxTreeObject;
-                searchNumber(box1, numberOfItems);
+                searchNumberOfObjects(box1, numberOfItems);
             }
         }
     }
@@ -210,7 +213,7 @@ public class Box implements BoxTreeObject {
         return box;
     }
 
-    private boolean putInBox(BoxTreeObject BTO){
+    public boolean putInBox(BoxTreeObject BTO){
         if (BTO == null){
             throw new NullPointerException();
         }
@@ -223,7 +226,24 @@ public class Box implements BoxTreeObject {
         return true;
     }
 
-    private boolean removeFromBox(BoxTreeObject BTO){
+    public boolean putInBox(ArrayList<BoxTreeObject> BTO){
+        if (BTO == null){
+            throw new NullPointerException();
+        }
+        int capacityOfBTO = 0;
+        while(BTO.listIterator().hasNext()){
+            capacityOfBTO += BTO.listIterator().next().getCapacity();
+        }
+        if (capacity < capacity + capacityOfBTO){
+            return false;
+        } else if (boxCondition.equals(BoxCondition.SEALED)){
+            return false;
+        }
+        nestedElem.addAll(BTO);
+        return true;
+    }
+
+    public boolean removeFromBox(BoxTreeObject BTO){
         if (BTO == null){
             throw new NullPointerException();
         } else if (nestedElem.size() < 1){
@@ -239,7 +259,10 @@ public class Box implements BoxTreeObject {
         return false;
     }
 
-    private boolean sealTheBox(){
+
+
+
+    public boolean sealTheBox(){
         if (whatIsObject().equals("Sealed Box") &&
                 whatIsObject().equals("Not Collected Box")){
             return  false;
@@ -248,7 +271,7 @@ public class Box implements BoxTreeObject {
         return true;
     }
 
-    private boolean unsealTheBox(){
+    public boolean unsealTheBox(){
         if (whatIsObject().equals("Collected Box") &&
                 whatIsObject().equals("Not Collected Box")){
             return  false;
@@ -257,22 +280,32 @@ public class Box implements BoxTreeObject {
         return true;
     }
 
-    private boolean disassembleTheBox(){
+    public boolean disassembleTheBox(){
         if (whatIsObject().equals("Not Collected Box")){
             return  false;
         } else if (nestedElem.size() > 0){
             return false;
         }
         boxCondition = BoxCondition.COLLECTED;
+        capacity = 0;
         return true;
     }
 
-    private boolean collectTheBox(){
+    public boolean collectTheBox(){
         if(whatIsObject().equals("Collected Box") &&
                 whatIsObject().equals("Sealed Box")){
             return false;
         }
         boxCondition = BoxCondition.COLLECTED;
+        capacity = maxCapacity;
         return true;
     }
 }
+
+
+
+
+
+
+
+
