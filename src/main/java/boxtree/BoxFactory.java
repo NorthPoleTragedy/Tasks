@@ -28,8 +28,8 @@ public class BoxFactory extends AbstractFabric {
         }
         BoxFactory boxFactory = new BoxFactory();
         while ((realFullness > 1) && (box.getNestedElem().size() < howManyObjInside)){
-            capacityOfNestedObj =(realFullness *
-                    ((int) (Math.random() * (percentOfFullness - 1)) + 1)) / 100;
+            capacityOfNestedObj = (int) (realFullness *
+                    ((Math.random() * (percentOfFullness - 1)) + 1)) / 100;
             realFullness -= capacityOfNestedObj;
             Box box1 = boxFactory.makeNode(capacityOfNestedObj);
             makeHierarchyRecursive(box1, capacityOfNestedObj, nestingLevels);
@@ -50,8 +50,8 @@ public class BoxFactory extends AbstractFabric {
         }
         BoxFactory boxFactory = new BoxFactory();
         while ((realFullness > 1) && (box.getNestedElem().size() < howManyObjInside)){
-            capacityOfNestedObj =(realFullness *
-                    ((int) (Math.random() * (percentOfFullness - 1)) + 1)) / 100;
+            capacityOfNestedObj =(int) (realFullness *
+                    (((Math.random() * (percentOfFullness - 1)) + 1)) / 100);
             realFullness -= capacityOfNestedObj;
             Box box1 = boxFactory.makeNode(capacityOfNestedObj);
             makeHierarchyRecursive(box1, capacityOfNestedObj, nestingLevels, parentsBox);
