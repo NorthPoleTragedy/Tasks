@@ -176,7 +176,7 @@ public class Box implements BoxTreeObject {
         return obj;
     }
 
-    public static void searchHeaviestObject(Box box, BoxTreeObject obj) {
+    private static void searchHeaviestObject(Box box, BoxTreeObject obj) {
         if (!BoxIsExistAndCollected(box)) {
             return ;
         }
