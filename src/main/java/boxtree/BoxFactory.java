@@ -1,6 +1,6 @@
 package boxtree;
 
-import java.util.ArrayList;
+
 
 public class BoxFactory extends AbstractFabric {
 
@@ -22,7 +22,7 @@ public class BoxFactory extends AbstractFabric {
         int howManyObjInside = (int) ((Math.random() * (10 - 1)) + 1);
         int percentOfFullness = (int) ((Math.random() * (100 -1)) +1);
         int realFullness = capacity * percentOfFullness / 100;
-        int capacityOfNestedObj = 0;
+        int capacityOfNestedObj;
         if (nestingLevels <= 0){
             return;
         }
@@ -41,8 +41,8 @@ public class BoxFactory extends AbstractFabric {
         int howManyObjInside = (int) ((Math.random() * (10 - 1)) + 1);
         int percentOfFullness = (int) ((Math.random() * (100 -1)) +1);
         int realFullness = capacity * percentOfFullness / 100;
-        int capacityOfNestedObj = 0;
-        if (box.getNestedElem().size() == 0){
+        int capacityOfNestedObj;
+        if (parentsBox.getNestedElem().size() == 0){
             nestingLevels -= 1;
         }
         if (nestingLevels <= 0){
@@ -54,7 +54,7 @@ public class BoxFactory extends AbstractFabric {
                     ((int) (Math.random() * (percentOfFullness - 1)) + 1)) / 100;
             realFullness -= capacityOfNestedObj;
             Box box1 = boxFactory.makeNode(capacityOfNestedObj);
-            makeHierarchyRecursive(box1, capacityOfNestedObj, nestingLevels, box);
+            makeHierarchyRecursive(box1, capacityOfNestedObj, nestingLevels, parentsBox);
             box.putInBox(box1);
         }
 
