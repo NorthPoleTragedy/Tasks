@@ -5,7 +5,7 @@ public class SinglTone {
     static SinglTone singlTone;
 
     private SinglTone(){
-        this.singlTone = new SinglTone();
+        singlTone = new SinglTone();
         abc = "OOO";
     }
 
